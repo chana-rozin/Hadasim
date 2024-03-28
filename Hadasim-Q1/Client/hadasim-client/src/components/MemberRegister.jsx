@@ -67,7 +67,8 @@ export default function MemberRegister() {
 
       :<div>NEW MEMBER
         {image && <img src={image} alt="img" />}
-        <form onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit}>
+          <label htmlFor="memberIdentifyNo">ID</label>
           <input
             label="ID"
             name="memberIdentifyNo"
@@ -76,6 +77,7 @@ export default function MemberRegister() {
             type={"number"}
           />
           <p>{formik.errors.memberIdentifyNo ? formik.errors.memberIdentifyNo : ""}</p>
+          <label htmlFor="memberFirstName">First Name</label>
           <input
             label="First Name"
             name="memberFirstName"
@@ -84,6 +86,7 @@ export default function MemberRegister() {
             type={"text"}
           />
           <p>{formik.errors.memberFirstName ? formik.errors.memberFirstName : ""}</p>
+          <label htmlFor="memberIdentifyNo">Last Name</label>
           <input
             label="Last Name"
             type={"text"}
@@ -92,6 +95,7 @@ export default function MemberRegister() {
             value={formik.values.memberLastName}
           />
           <p>{formik.errors.memberLastName ? formik.errors.memberLastName : ""}</p>
+          <label htmlFor="memberCity">memberCity</label>
           <input
             label="memberCity"
             type={"text"}
@@ -100,6 +104,7 @@ export default function MemberRegister() {
             value={formik.values.memberCity}
           />
           <p>{formik.errors.memberCity ? formik.errors.memberCity : ""}</p>
+          <label htmlFor="memberStreet">Street</label>
           <input
             label="Street"
             type={"text"}
@@ -108,6 +113,7 @@ export default function MemberRegister() {
             value={formik.values.memberStreet}
           />
           <p>{formik.errors.memberStreet ? formik.errors.memberStreet : ""}</p>
+          <label htmlFor="memberHouseNo">House number</label>
           <input
             label="House number"
             type={"number"}
@@ -116,6 +122,7 @@ export default function MemberRegister() {
             value={formik.values.memberHouseNo}
           />
           <p>{formik.errors.memberHouseNo ? formik.errors.memberHouseNo : ""}</p>
+          <label htmlFor="memberBirthDate">Birthdate</label>
           <input
             label="Birthdate"
             type={"date"}
@@ -124,6 +131,7 @@ export default function MemberRegister() {
             value={formik.values.memberBirthDate}
           />
           <p>{formik.errors.memberBirthDate ? formik.errors.memberBirthDate : ""}</p>
+          <label htmlFor="memberTel">Telephone</label>
           <input
             label="Telephone"
             type={"text"}
@@ -132,6 +140,7 @@ export default function MemberRegister() {
             value={formik.values.memberTel}
           />
           <p>{formik.errors.memberTel ? formik.errors.memberTel : ""}</p>
+          <label htmlFor="memberCell">Mobile</label>
           <input
             label="Mobile phone"
             type={"text"}
