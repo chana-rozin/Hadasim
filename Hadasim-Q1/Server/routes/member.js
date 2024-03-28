@@ -73,7 +73,6 @@ memberRoute.get('/', async function(req, res, next) {
 
   memberRoute.put('/:id',update_member, async function(req, res, next) {
     try {
-      console.log("i was there")
       res.json(await update(req.params.id, req.body));
     } catch (err) {
       console.error(`Error while updating member`, err.message);
