@@ -42,7 +42,7 @@ The server-side API is structured as follows:
 
 #### Database Schema
 The database schema includes 4 tables for members, COVID-19 information, and 2 tables for vaccination records, with appropriate relationships between them.
-![screenshot]('./screenshot1')
+![screenshot]('./screenshots/screenshot1.png')
 
 #### Database Connection
 The database connection is established using the `mysql2/promise` library. The `query` function in the `db.js` file executes SQL queries asynchronously and returns the results.
