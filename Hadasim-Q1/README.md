@@ -40,6 +40,14 @@ The server-side API is structured as follows:
 - **POST /members/:id/image**: Upload an image for a member (not implemented in frontend).
 - **GET /analysis/notVaccinated**: Retrieve the count of members who are not vaccinated.
 
+#### Database Schema
+The database schema includes 4 tables for members, COVID-19 information, and 2 tables for vaccination records, with appropriate relationships between them.
+![screenshot](screenshots/screenshot1.png)
+
+#### Database Connection
+The database connection is established using the `mysql2/promise` library. The `query` function in the `db.js` file executes SQL queries asynchronously and returns the results.
+
+
 ### Client (Frontend) Application
 
 #### Features
