@@ -2,7 +2,6 @@ import {getMultiple, create, getById, remove, update} from '../Services/m-image.
 import express, { json } from "express";
 import multer from "multer";
 import path from "path";
-import { query } from '../Services/DB.js';
 
 const imageRoute=express.Router()
 
@@ -22,7 +21,6 @@ let storage = multer.diskStorage({
 
   imageRoute.post("/", upload.single("image"), function (req, res, next) {
     try {
-        console.log(req.body.ImageName);
       res.json(create(req.memberId,req.body.ImageName));
     } catch (err) {
       console.error(`Error`, err.message);

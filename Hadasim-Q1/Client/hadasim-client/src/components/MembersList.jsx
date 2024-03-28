@@ -1,6 +1,5 @@
-import { replace } from "formik";
 import { useState, useEffect } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function MembersList() {
     const [members, setMembers] = useState([]);
@@ -21,7 +20,6 @@ export default function MembersList() {
             })
             .then(data => {
                 setMembers(data);
-                console.log(data);
                 setLoaded(true)
             })
             .catch(err => {

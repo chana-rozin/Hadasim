@@ -29,7 +29,6 @@ app.use(cors({
 }))
 
 app.use(function (req, res, next) {
-  console.log(req.body);
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();

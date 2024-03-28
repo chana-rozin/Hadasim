@@ -9,7 +9,6 @@ export default function Analysis(){
         fetch('http://localhost:3000/analysis/notVaccinated')
         .then(res=>res.json())
         .then(data=>{
-            console.log(data)
             setNotVaccinated(data[0].count);
         })
         .catch(err=>setErr(true))

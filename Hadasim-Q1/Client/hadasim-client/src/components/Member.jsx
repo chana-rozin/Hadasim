@@ -18,7 +18,6 @@ export default function Member() {
 
   async function submitHandler(values){
     values.memberBirthDate = sqlDateConvert(values.memberBirthDate);
-    console.log(JSON.stringify(values));
       const res = await fetch(`http://localhost:3000/members/${id}`,{
         method: 'PUT',
         body: JSON.stringify(values),
@@ -32,7 +31,7 @@ export default function Member() {
         loadData();
       }
       else{
-        console.log(res);
+
         alert(`Failed update: ${res}`);
       }
   }
@@ -48,9 +47,7 @@ export default function Member() {
       const file = event.target.files[0];
       const fromData = new FormData()
       fromData.append('image', file);
-      console.log(file.name)
       fromData.append('ImageName', file.name)
-      console.log(file);
       fetch(`http://localhost:3000/members/${member.id}/image`,{method: 'POST', body: fromData,
       headers: {
         'Content-type': file.type,
@@ -69,7 +66,6 @@ export default function Member() {
         throw "Error in loaded data"
     })
     .then(data => {
-      console.log(data[0]);
       setMember(data[0]);
       formik.setValues(data[0]);
       setLoeaded(true)

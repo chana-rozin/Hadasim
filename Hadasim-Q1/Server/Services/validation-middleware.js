@@ -50,7 +50,7 @@ const update_member = async (req, res, next) => {
         } else {
             next();
         }
-    }).catch(err => console.log(err))
+    }).catch(err => console.error(err))
 }
 
 const new_vaccination = async (req, res, next) => {

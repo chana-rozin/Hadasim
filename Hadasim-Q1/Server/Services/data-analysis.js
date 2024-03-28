@@ -4,7 +4,6 @@ import { json } from "express";
 
 
 async function notVaccinated() {
-    console.log("ana2")
     const result = await query(
         `select count(memberId) as count
             from member

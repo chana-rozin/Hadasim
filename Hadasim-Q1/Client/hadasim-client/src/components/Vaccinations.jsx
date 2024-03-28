@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { reactDateTimeConvert } from "../helper.js";
 
@@ -22,7 +22,6 @@ export default function Vaccinations() {
                     throw "Error in loaded data"
             })
             .then(data => {
-                console.log(data);
                 setVaccinations(data);
                 setLoeaded(true);
             })

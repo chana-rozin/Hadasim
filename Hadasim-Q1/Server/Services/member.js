@@ -37,12 +37,9 @@ async function getMemberCovid(id) {
 }
 
 async function create(mem) {
-  console.log(`(${mem.memberIdentifyNo}, '${mem.memberFirstName}', '${mem.memberLastName}', '${mem.memberCity}', '${mem.memberStreet}',${mem.memberHouseNo},'${mem.memberBirthDate}',${mem.memberTel},${mem.memberCell})`);
-  const result = await query(
     `INSERT INTO member
     VALUES 
     (null,${mem.memberIdentifyNo}, '${mem.memberFirstName}', '${mem.memberLastName}', '${mem.memberCity}', '${mem.memberStreet}',${mem.memberHouseNo},'${mem.memberBirthDate}','${mem.memberTel}','${mem.memberCell}',null)`
-  );
   if (result.affectedRows) {
     return result.insertId;
   }
@@ -51,7 +48,6 @@ async function create(mem) {
 
 
 async function update(id, mem) {
-  console.log(id);
   const result = await query(
     `UPDATE member 
     SET memberFirstName="${mem.memberFirstName}", memberLastName="${mem.memberLastName}" , memberCity="${mem.memberCity}",
@@ -70,7 +66,6 @@ async function update(id, mem) {
 }
 
 async function remove(id) {
-  console.log(id)
   const result = await query(
     `DELETE FROM member WHERE memberIdentifyNo=?`
   ,id);

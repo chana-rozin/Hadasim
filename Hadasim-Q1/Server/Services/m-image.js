@@ -49,7 +49,6 @@ async function getById(id, res){
   }
 
   async function update(id, image){
-    console.log(id);
     const result = await query(
       `UPDATE member 
       SET memberPhoto = '${image}'"

@@ -17,7 +17,6 @@ export default function MemberRegister() {
 
   async function submitHandler(values){
     values.memberBirthDate = sqlDateConvert(values.memberBirthDate);
-    console.log(JSON.stringify(values));
       const res = await fetch(`http://localhost:3000/members`,{
         method: 'POST',
         body: JSON.stringify(values),
@@ -30,7 +29,6 @@ export default function MemberRegister() {
         formik.setValues(formik.initialValues);
       }
       else{
-        console.log(res);
         alert(`Failed create`);
       }
   }
@@ -56,7 +54,6 @@ export default function MemberRegister() {
   //     const file = event.target.files[0];
   //     const fromData = new FormData()
   //     fromData.append('image', file);
-  //     console.log(file);
   //     fetch(`http://localhost:3000/members/${member.id}/photo`,{method: 'POST', body: fromData})
   //     .then(res=>res.json())
   //     .then(res=>setUploadtatus(res.msg))

@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { reactDateConvert } from "../helper.js";
 
@@ -18,8 +18,6 @@ export default function Covid() {
                     throw "Error in loaded data"
             })
             .then(data => {
-                console.log(data);
-
                 setCovid(data[0]);
             })
             .then(() => setLoeaded(true))
