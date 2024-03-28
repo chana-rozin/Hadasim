@@ -33,7 +33,7 @@ vaccinationsRoute.post('/',new_vaccination, async function (req, res, next) {
 
 vaccinationsRoute.put('/:vaccinationId',update_vaccination, async function (req, res, next) {
     try {
-        res.json(await update(req.params.vaccinationId, req.memberId, req.body));
+        res.json(await update(req.params.vaccinationId, req.body));
     } catch (err) {
         console.error(`Error while updating vaccination`, err.message);
         next(err);

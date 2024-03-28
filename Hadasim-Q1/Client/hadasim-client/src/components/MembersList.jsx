@@ -14,8 +14,10 @@ export default function MembersList(){
                 return res.json()
             else
                 throw "Error in loaded data"})
-        .then(data=>{setMembers(data); console.log(data)})
-        .then(()=>setLoaded(true))
+        .then(data=>{
+            setMembers(data);
+            console.log(data);
+            setLoaded(true)})
         .catch(err=>{
             console.error(err);
             setErr(true);

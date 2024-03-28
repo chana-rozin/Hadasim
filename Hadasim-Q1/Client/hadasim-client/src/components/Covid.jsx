@@ -23,16 +23,13 @@ export default function Covid(){
             })
             .then(()=>setLoeaded(true))
             .catch(err=>{
-                console.error(err);
-                error();
+                setErr(true);
             })
         },[]);
 
-    const error = ()=>Navigate("404", true);
-
     return(<>
         {loaded ? <div>
-            {covid==undefined? <p>{covid.covidReceivingDate}    {covid.covidRecoveryDate}</p> : <p>There no covid information</p>}
+            {covid.memberId? <p>{covid.covidReceivingDate}    {covid.covidRecoveryDate}</p> : <p>There no covid information</p>}
         </div>
         :<p>loading...</p>}
         {err && <p>Error, try again later</p>}

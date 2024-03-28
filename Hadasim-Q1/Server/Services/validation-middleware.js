@@ -2,15 +2,15 @@ import { validator } from "../helper.js";
 
 const new_member = async (req, res, next) => {
     const validationRule = {
-        "id": "required|integer|israeliID|maxInstance:member,memberIdentifyNo,0",
-        "first_name": "required|string|max:45",
-        "last_name": "required|string|max:45",
-        "city": "required|string|max:45",
-        "street": "required|string|max:45",
-        "house_no": "required|digits_between:1,10000",
-        "birth_date": "required|date",
-        "telephone": "required|israeliPhone",
-        //"cellphone": "nullOrRegex:/^(05[0-9])-?(\d{7})$/"
+        "memberIdentifyNo": "required|integer|israeliID|maxInstance:member,memberIdentifyNo,0",
+        "memberFirstName": "required|string|max:45",
+        "memberLastName": "required|string|max:45",
+        "memberCity": "required|string|max:45",
+        "memberStreet": "required|string|max:45",
+        "memberHouseNo": "required|digits_between:1,10000",
+        "memberBirthDate": "required|date",
+        "memberTel": "required|israeliPhone",
+        //"memberCell": "nullOrRegex:/^(05[0-9])-?(\d{7})$/"
     };
 
     await validator(req.body, validationRule, {}, (err, status) => {
@@ -29,14 +29,14 @@ const new_member = async (req, res, next) => {
 
 const update_member = async (req, res, next) => {
     const validationRule = {
-        "first_name": "required|string|max:45",
-        "last_name": "required|string|max:45",
-        "city": "required|string|max:45",
-        "street": "required|string|max:45",
-        "house_no": "required|digits_between:1,10000",
-        "birth_date": "required|date",
-        "telephone": "required|israeliPhone",
-        //"cellphone": "nullOrRegex:/^(05[0-9])-?(\d{7})$/"
+        "memberFirstName": "required|string|max:45",
+        "memberLastName": "required|string|max:45",
+        "memberCity": "required|string|max:45",
+        "memberStreet": "required|string|max:45",
+        "memberHouseNo": "required|digits_between:1,10000",
+        "memberBirthDate": "required|date",
+        "memberTel": "required|israeliPhone",
+        //"memberCell": "nullOrRegex:/^(05[0-9])-?(\d{7})$/"
     };
 
     await validator(req.body, validationRule, {}, (err, status) => {

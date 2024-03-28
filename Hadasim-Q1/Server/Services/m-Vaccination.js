@@ -29,7 +29,7 @@ async function create(vaccinated){
   const result = await query(
     `INSERT INTO vaccinated
     VALUES 
-    (null,${vaccinated.memberId},${vaccinated.vaccinId},'${vaccinated.date}')`);
+    (null,${vaccinated.memberId},${vaccinated.vaccinId},'${vaccinated.vaccinatedDate}')`);
 // let message = 'Error in creating member';
 if (result.affectedRows) {
   //message = 'member created successfully';
@@ -40,11 +40,11 @@ if (result.affectedRows) {
 }
 
 
-async function update(vaccinationId, memId, vaccination){
+async function update(vaccinationId, vaccination){
   const result = await query(
     `UPDATE vaccinated 
     SET vaccinId=${vaccination.vaccinId}, 
-    vaccinatedDate =${vaccination.date}
+    vaccinatedDate =${vaccination.vaccinatedDate}
     WHERE vaccinationId=${vaccinationId} and memberId=${memId}` );
 
   let message = 'Error in updating vaccination';

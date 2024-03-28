@@ -24,7 +24,7 @@ async function getById(id){
 async function create(carrier){
   const result = await query(
     `INSERT INTO covid_carrier
-    VALUES (${carrier.memberId},'${carrier.receivingDate}', '${carrier.recoveryDate}')`);
+    VALUES (${carrier.memberId},'${carrier.covidReceivingDate}', '${carrier.covidRrecoveryDate}')`);
   // let message = 'Error in creating member';
   if (result.affectedRows) {
     //message = 'member created successfully';
@@ -38,7 +38,7 @@ async function create(carrier){
 async function update(id, carrier){
   const result = await query(
     `UPDATE covid_carrier 
-    set covidReceivingDate = '${carrier.receivingDate}', covidRecoveryDate = '${carrier.recoveryDate}'
+    set covidReceivingDate = '${carrier.covidReceivingDate}', covidRecoveryDate = '${carrier.covidRrecoveryDate}'
     WHERE memberId=${id}` 
   );
 

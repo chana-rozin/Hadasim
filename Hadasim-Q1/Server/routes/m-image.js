@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+
 const imageRoute=express.Router()
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,10 +26,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Serve uploaded photos statically
-imageRoute.use('/photo', express.static(path.join(__dirname, 'uploads')));
+imageRoute.use(upload.any());
 
-imageRoute.get('/photo',async (req, res, next)=>{
+// Serve uploaded photos statically
+imageRoute.use('/', express.static(path.join(__dirname, 'uploads')));
+
+imageRoute.get('/',async (req, res, next)=>{
     try {
         res.json(await getPhoto(req.memberId));
       } catch (err) {
@@ -38,7 +41,7 @@ imageRoute.get('/photo',async (req, res, next)=>{
 })
 
 
-imageRoute.post('/photo', upload.single('image'), (req, res, next) => {
+imageRoute.post('/', upload.single('image'), (req, res, next) => {
     // Check if file upload failed or not an image
     if (!req.file || !req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
         return res.status(400).json({ error: 'Only image files (jpg, jpeg, png, gif) are allowed!' });

@@ -3,6 +3,7 @@ import { Link, Navigate, Outlet, json, useParams } from "react-router-dom"
 import { useForm } from 'react-hook-form';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { isValidIsraeliID } from "../helper.js";
 
 export default function Member() {
   const { id } = useParams();
@@ -22,24 +23,29 @@ export default function Member() {
     memberCity: Yup.string().required("City is required").max(45, "City name contain at most 45 characters"),
     memberStreet: Yup.string().required("Street is required").max(45, "Street name contain at most 45 characters"),
     memberHouseNo: Yup.number().required("House number is required").min(1, "Invalid house number").max(10000, "Invalid house number"),
-    //memberBirthDate: Yup.date().required("Date of birth is required"),
+    memberBirthDate: Yup.date().required("Date of birth is required"),
     memberTel: Yup.string().matches(/^(?:0(?:(?:\d{1,2}(?:-?\d{7})?)|(?:5\d(?:-?\d{7})?))|(?:\d{1,2}-?\d{7}))$/, "Invalid Israeli telephone number"),
     memberCell: Yup.string().matches(/^05\d([-]?)\d{7}$/, "Invalid Israeli mobile number"),
   })
 
   async function submitHandler(values){
-    //values.memberBirthDate = sqlDateConvert(values.memberBirthDate);
-      const result = await fetch(`http://localhost:3000/members/${id}`,{
+    values.memberBirthDate = sqlDateConvert(values.memberBirthDate);
+    console.log(JSON.stringify(values));
+      const res = await fetch(`http://localhost:3000/members/${id}`,{
         method: 'PUT',
-        body: values
+        body: JSON.stringify(values),
+        headers: {
+          'Content-type': 'application/json'
+        }
       });
-      if(result.ok){
-        console.log(result);
+      if(res.ok){
+        setInEdit(false);
         alert("Succssfully update");
         loadData();
       }
       else{
-        alert(`Failed update: ${result.error}`);
+        console.log(res);
+        alert(`Failed update: ${res}`);
       }
   }
 
@@ -49,23 +55,6 @@ export default function Member() {
     validationSchema: validateSchema,
     onSubmit: submitHandler,
   });
-
- 
-
-  function isValidIsraeliID(id) {
-      var id = String(id).trim();
-      if (id.length > 9 || id.length < 5 || isNaN(id)) return false;
-
-      // Pad string with zeros up to 9 digits
-        id = id.length < 9 ? ("00000000" + id).slice(-9) : id;
-
-        return Array
-              .from(id, Number)
-                .reduce((counter, digit, i) => {
-                  const step = digit * ((i % 2) + 1);
-                          return counter + (step > 9 ? step - 9 : step);
-                      }) % 10 === 0;
-  }
 
   // const imageHandler=(event)=>{
   //     const file = event.target.files[0];
@@ -102,44 +91,18 @@ export default function Member() {
     loadData();
   }, []);
 
-  function reactDateConvert(sqlDate){
-    const dateParts = sqlDate.split('-');
-    
-    const date =  new Date(dateParts[2].substr(0,2), dateParts[1] - 1, dateParts[0]);
-    console.log(date);
-    return date;
-  }
+  const reactDateConvert = sqlDate => new Date(sqlDate).toJSON().slice(0,10);
 
-  function sqlDateConvert(reactDate){
-    const dateParts = reactDate.split('/');
-    
-    const date=//convert to sql date;
-    console.log(date);
-    return date;
-  }
+  const sqlDateConvert=reactDate => new Date(reactDate).toISOString().slice(0,10);
   
-  //console.log(formik.values);
   return (
     <>
-
-      {loaded ? <div>
-        {/* {imageLoaded ? <img src={image}/> : <p>loadded</p>} */}
-        <Link to="vaccinations">vaccinations</Link>
-        <Link to="covid">covid</Link>
-        {member.memberIdentifyNo}   {member.memberFirstName}    {member.memberLastName}     {member.memberBirthDate}
-        {member.memberCity}   {member.memberStreet}    {member.memberHouseNo}     {member.memberTel}
-        {member.memberCell != undefined && <p>{member.memberCell}</p>}
-        <Outlet />
-      </div>
-        : <p>loading...</p>}
-
       {err && <p>Error, try again later</p>}
 
       {loaded ? <div>
         {image && <img src={image} alt="img" />}
-        <Link to="vaccinations">vaccinations</Link>
-        <Link to="covid">covid</Link>
-        <button onClick={event => setInEdit(true)}>edit</button>
+        <div className="nav"><Link to="vaccinations">vaccinations</Link>
+        <Link to="covid">covid</Link></div>
         <form onSubmit={formik.handleSubmit}>
           <input
             disabled={true}
@@ -195,7 +158,7 @@ export default function Member() {
             value={formik.values.memberHouseNo}
           />
           <p>{formik.errors.memberHouseNo ? formik.errors.memberHouseNo : ""}</p>
-          {/* <input
+          <input
             disabled={!inEdit}
             label="Birthdate"
             type={"date"}
@@ -203,7 +166,7 @@ export default function Member() {
             onChange={formik.handleChange}
             value={reactDateConvert(formik.values.memberBirthDate)}
           />
-          <p>{formik.errors.memberBirthDate ? formik.errors.memberBirthDate : ""}</p> */}
+          <p>{formik.errors.memberBirthDate ? formik.errors.memberBirthDate : ""}</p>
           <input
             disabled={!inEdit}
             label="Telephone"
@@ -224,9 +187,10 @@ export default function Member() {
           <p>{formik.errors.memberCell ? formik.errors.memberCell : ""}</p>
           {inEdit && <button type={"submit"}>SAVE</button>}
         </form>
+        {!inEdit && <button onClick={event => setInEdit(true)}>edit</button>}
       </div> : <p>loading...</p>}
       {/* <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} /> */}
-
+        <Outlet/>
     </>)
 }
 

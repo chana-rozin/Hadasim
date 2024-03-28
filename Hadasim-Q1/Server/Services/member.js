@@ -16,20 +16,35 @@ async function getMultiple(page = 1){
   return data;
 }
 
+async function getMemberVacc(id, page=1){
+  const offset = getOffset(page, config.listPerPage);
+  const rows = await query(
+    `select * from vaccinated where memberId = ? 
+    LIMIT ${offset},${config.listPerPage}`,id);
+  
+  let data = emptyOrRows(rows);
+  return data;
+}
+
+async function getMemberCovid(id){
+  const rows = await query(
+    `select * from covid_carrier where memberId = ? `,id);
+  
+  let data = emptyOrRows(rows);
+  return data;
+}
+
 async function create(mem){
-  console.log(`(${mem.id}, '${mem.first_name}', '${mem.last_name}', '${mem.city}', '${mem.street}',${mem.house_no},'${mem.birth_date}',${mem.telephone},${mem.celphone})`);
+  console.log(`(${mem.id}, '${mem.memberFirstName}', '${mem.memberLastName}', '${mem.memberCity}', '${mem.memberStreet}',${mem.memberHouseNo},'${mem.memberBirthDate}',${mem.memberTel},${mem.celphone})`);
   const result = await query(
     `INSERT INTO member
     VALUES 
-    (null,${mem.id}, '${mem.first_name}', '${mem.last_name}', '${mem.city}', '${mem.street}',${mem.house_no},'${mem.birth_date}','${mem.telephone}','${mem.cellphone}',null)`
+    (null,${mem.id}, '${mem.memberFirstName}', '${mem.memberLastName}', '${mem.memberCity}', '${mem.memberStreet}',${mem.memberHouseNo},'${mem.memberBirthDate}','${mem.memberTel}','${mem.memberCell}',null)`
   );
-  // let message = 'Error in creating member';
   if (result.affectedRows) {
-    //message = 'member created successfully';
     return result.insertId;
   }
     throw "Error in creating member"
-  //return {message};
 }
 
 
@@ -37,9 +52,9 @@ async function update(id, mem){
   console.log(id);
   const result = await query(
     `UPDATE member 
-    SET memberFirstName="${mem.first_name}", memberLastName="${mem.last_name}" , memberCity="${mem.city}",
-    memberStreet="${mem.street}", memberHouseNo=${mem.house_no}, 
-   memberBirthDate="${mem.birth_date}", memberTel="${mem.telephone}",memberCell ="${mem.cellphone}"
+    SET memberFirstName="${mem.memberFirstName}", memberLastName="${mem.memberLastName}" , memberCity="${mem.memberCity}",
+    memberStreet="${mem.memberStreet}", memberHouseNo=${mem.memberHouseNo}, 
+   memberBirthDate="${mem.memberBirthDate}", memberTel="${mem.memberTel}",memberCell ="${mem.memberCell}"
     WHERE memberIdentifyNo=?` 
   , id);
 
@@ -67,4 +82,4 @@ async function remove(id){
 }
 
 export 
- { getById, getMultiple, create, update, remove}
+ { getById, getMultiple, getMemberVacc,getMemberCovid, create, update, remove}
