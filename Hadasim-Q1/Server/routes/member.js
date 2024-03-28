@@ -7,17 +7,18 @@ import { new_member,update_member } from '../Services/validation-middleware.js';
 
 
 const memberRoute=express.Router()
-// memberRoute.use('/:id/vaccinations',(req, res, next) => {
-//     const memberId = req.params.id;
-//     req.memberId = memberId;
-//     next();
-// }, vaccinationsRoute);
 
-// memberRoute.use('/:id/covid',(req, res, next) => {
-//     const memberId = req.params.id;
-//     req.memberId = memberId;
-//     next();
-// }, covidRoute);
+memberRoute.use('/:id/vaccinations',(req, res, next) => {
+    const memberId = req.params.id;
+    req.memberId = memberId;
+    next();
+}, vaccinationsRoute);
+
+memberRoute.use('/:id/covid',(req, res, next) => {
+    const memberId = req.params.id;
+    req.memberId = memberId;
+    next();
+}, covidRoute);
 
 memberRoute.use('/:id/image',(req, res, next) => {
     const memberId = req.params.id;
@@ -70,7 +71,7 @@ memberRoute.get('/', async function(req, res, next) {
     }
   });
 
-  memberRoute.put('/:id', async function(req, res, next) {
+  memberRoute.put('/:id',update_member, async function(req, res, next) {
     try {
       console.log("i was there")
       res.json(await update(req.params.id, req.body));

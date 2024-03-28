@@ -3,13 +3,13 @@ import express from "express";
 import cors from "cors";
 import multer from 'multer';
 import memberRoute from './routes/member.js';
+import analyserRoute from './routes/data-analysis.js';
 import config from './config.js';
 import { create } from './Services/member.js';
 
 const app = express();
 
-// const upload = multer();
-// app.use(upload.any());
+
 app.use(
   express.urlencoded({
     extended: true,
@@ -47,5 +47,7 @@ app.use('/members', memberRoute);
 app.listen(config.port, function () {
   console.log(`Server is running on localhost${config.port}`);
 });
+
+app.use('/analysis', analyserRoute);
 
 

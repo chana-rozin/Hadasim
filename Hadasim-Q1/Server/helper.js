@@ -1,6 +1,12 @@
 import Validator from "validatorjs";
 import { query } from "./Services/DB.js";
 import { json } from "express";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function getOffset(currentPage = 1, listPerPage) {
     return (currentPage - 1) * [listPerPage];
@@ -139,5 +145,6 @@ function isValidIsraeliID(id) {
 export {
     getOffset,
     emptyOrRows,
-    validator
+    validator,
+    __dirname
 }

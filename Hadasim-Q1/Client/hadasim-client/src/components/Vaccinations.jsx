@@ -1,8 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup"
-import { isValidIsraeliID } from "../helper.js";
+import { reactDateTimeConvert } from "../helper.js";
 
 export default function Vaccinations() {
     const { id } = useParams();
@@ -35,8 +33,10 @@ export default function Vaccinations() {
     }
 
     return (<>
-        {loaded ? <div>
-            {vaccinations.length ? vaccinations.map((vacc, i) => <div key={`${i}`}>{vacc.vaccinatedDate.slice(0, 19).replace('T', ' ')}</div>)
+        {loaded ? <div >
+            {vaccinations.length ? vaccinations.map((vacc, i) => <div key={`${i}`}>
+                <b>vaccination date:</b> {reactDateTimeConvert(vacc.vaccinatedDate)}    <b> manufacturer:</b> {vacc.vaccinManufacturer}
+                </div>)
                 : <p>No vaccinations yet</p>}
         </div>
             : <p>loading...</p>}

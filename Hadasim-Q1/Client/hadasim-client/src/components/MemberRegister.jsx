@@ -2,99 +2,76 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, json, useParams } from "react-router-dom"
 import { useForm } from 'react-hook-form';
 import { useFormik } from "formik";
-import {reactDateConvert, sqlDateConvert ,memberValidateSchema} from "../helper.js";
+import * as Yup from "yup";
+import {reactDateConvert, sqlDateConvert,memberValidateSchema } from "../helper.js";
 import Covid from "./Covid.jsx";
 import Vaccinations from "./Vaccinations.jsx";
 
-export default function Member() {
+export default function MemberRegister() {
   const { id } = useParams();
-  const [inEdit, setInEdit] = useState(false);
-  const [loaded, setLoeaded] = useState(false);
   const [imageLoaded, setImageLoeaded] = useState(false);
-  const [member, setMember] = useState({});
-  const [uploadStatus, setUploadtatus] = useState("");
   const [image, setImage] = useState();
   const [err, setErr] = useState(false)
+
+  
 
   async function submitHandler(values){
     values.memberBirthDate = sqlDateConvert(values.memberBirthDate);
     console.log(JSON.stringify(values));
-      const res = await fetch(`http://localhost:3000/members/${id}`,{
-        method: 'PUT',
+      const res = await fetch(`http://localhost:3000/members`,{
+        method: 'POST',
         body: JSON.stringify(values),
         headers: {
           'Content-type': 'application/json'
         }
       });
       if(res.ok){
-        setInEdit(false);
-        alert("Succssfully update");
-        loadData();
+        alert("Succssfully create");
+        formik.setValues(formik.initialValues);
       }
       else{
         console.log(res);
-        alert(`Failed update: ${res}`);
+        alert(`Failed create`);
       }
   }
 
+
   const formik = useFormik({
-    initialValues: {},
-    enableReinitialize: true,
+     initialValues: {memberIdentifyNo: 0,
+        memberFirstName:"",
+        memberLastName: "",
+        memberCity: "",
+        memberStreet:"",
+        memberHouseNo: 0,
+        memberBirthDate: "0000-00-00",
+        memberTel: "",
+        memberCell: null
+    },
+    // enableReinitialize: true,
     validationSchema: memberValidateSchema,
     onSubmit: submitHandler,
   });
 
-  const imageHandler=(event)=>{
-      const file = event.target.files[0];
-      const fromData = new FormData()
-      fromData.append('image', file);
-      console.log(file.name)
-      fromData.append('ImageName', file.name)
-      console.log(file);
-      fetch(`http://localhost:3000/members/${member.id}/image`,{method: 'POST', body: fromData,
-      headers: {
-        'Content-type': file.type,
-      }})
-      .then(res=>res.json())
-      .then(res=>setUploadtatus(res.msg))
-      .catch(err=>console.error(err));
-  }
+  // const imageHandler=(event)=>{
+  //     const file = event.target.files[0];
+  //     const fromData = new FormData()
+  //     fromData.append('image', file);
+  //     console.log(file);
+  //     fetch(`http://localhost:3000/members/${member.id}/photo`,{method: 'POST', body: fromData})
+  //     .then(res=>res.json())
+  //     .then(res=>setUploadtatus(res.msg))
+  //     .catch(err=>console.error(err));
+  // }
 
-  function loadData(){
-    fetch(`http://localhost:3000/members/${id}`)
-    .then(res => {
-      if (res.status == 200)
-        return res.json()
-      else
-        throw "Error in loaded data"
-    })
-    .then(data => {
-      console.log(data[0]);
-      setMember(data[0]);
-      formik.setValues(data[0]);
-      setLoeaded(true)
-    })
-  .catch(err => {
-    console.error(err);
-    setErr(true);
-  })
-  }
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
- 
   
   return (
     <>
-      {err && <p>Error, try again later</p>}
+      {err ? <p>Error, try again later</p>
 
-      {loaded ? <div>member card
+      :<div>NEW MEMBER
         {image && <img src={image} alt="img" />}
         <form onSubmit={formik.handleSubmit}>
           <input
-            disabled={true}
             label="ID"
             name="memberIdentifyNo"
             onChange={formik.handleChange}
@@ -103,7 +80,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberIdentifyNo ? formik.errors.memberIdentifyNo : ""}</p>
           <input
-            disabled={!inEdit}
             label="First Name"
             name="memberFirstName"
             onChange={formik.handleChange}
@@ -112,7 +88,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberFirstName ? formik.errors.memberFirstName : ""}</p>
           <input
-            disabled={!inEdit}
             label="Last Name"
             type={"text"}
             name="memberLastName"
@@ -121,7 +96,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberLastName ? formik.errors.memberLastName : ""}</p>
           <input
-            disabled={!inEdit}
             label="memberCity"
             type={"text"}
             name="memberCity"
@@ -130,7 +104,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberCity ? formik.errors.memberCity : ""}</p>
           <input
-            disabled={!inEdit}
             label="Street"
             type={"text"}
             name="memberStreet"
@@ -139,7 +112,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberStreet ? formik.errors.memberStreet : ""}</p>
           <input
-            disabled={!inEdit}
             label="House number"
             type={"number"}
             name="memberHouseNo"
@@ -148,16 +120,14 @@ export default function Member() {
           />
           <p>{formik.errors.memberHouseNo ? formik.errors.memberHouseNo : ""}</p>
           <input
-            disabled={!inEdit}
             label="Birthdate"
             type={"date"}
             name="memberBirthDate"
             onChange={formik.handleChange}
-            value={reactDateConvert(formik.values.memberBirthDate)}
+            value={formik.values.memberBirthDate}
           />
           <p>{formik.errors.memberBirthDate ? formik.errors.memberBirthDate : ""}</p>
           <input
-            disabled={!inEdit}
             label="Telephone"
             type={"text"}
             name="memberTel"
@@ -166,7 +136,6 @@ export default function Member() {
           />
           <p>{formik.errors.memberTel ? formik.errors.memberTel : ""}</p>
           <input
-            disabled={!inEdit}
             label="Mobile phone"
             type={"text"}
             name="memberCell"
@@ -174,13 +143,10 @@ export default function Member() {
             value={formik.values.memberCell}
           />
           <p>{formik.errors.memberCell ? formik.errors.memberCell : ""}</p>
-          {inEdit && <button type={"submit"}>SAVE</button>}
+          <button type={"submit"}>SAVE</button>
         </form>
-        {!inEdit && <button onClick={event => setInEdit(true)}>edit</button>}
-      </div> : <p>loading...</p>}
-       {/* <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} />  */}
-        <h4>covid:</h4><Covid/>
-        <h4>vaccinations:</h4><Vaccinations/>
-    </>)
+      </div>}
+      {/* <input type="file" name="image" accept="image/*" multiple={false} onChange={imageHandler} /> */}
+  </>)
 }
 

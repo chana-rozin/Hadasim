@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
 }
 
 a {
@@ -54,10 +56,27 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-.nav{
+.record{
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  border-style: solid;
+  margin: 2rem;
+  padding: 1rem;
+  border-color: #747bff;
 }
+
+input{
+  width: 80%;
+  background-color: #ffffff;
+
+}
+
+input, disable{
+  border-style: none;
+  font-size: medium;
+}
+
+
 
 .vacc{
   display: flex;
