@@ -79,6 +79,10 @@ The project is structured as follows:
 - **assets**: Contains image assets used in the application.
 - **helper.js**: Utility functions for date conversion and form validation.
 
+#### user view
+- "/"
+  ![screenshot2](screenshots/screenshot2.png)
+
 #### Setup Instructions
 1. Clone the repository to your local machine.
 2. Navigate to the client directory and install dependencies by running `npm install`.
